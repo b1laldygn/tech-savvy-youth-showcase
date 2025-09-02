@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Globe } from 'lucide-react';
+import { Globe, Moon, Sun } from 'lucide-react';
 
 const translations = {
   tr: {
-    title: "Ahmet Yılmaz",
+    title: "Bilal Efe Doyğun",
     subtitle: "Genç Teknoloji Uzmanı",
     intro: "Merhaba! Ben siber güvenlik, Raspberry Pi projeleri ve yenilenebilir enerji teknolojileri konularında deneyimli bir gencim.",
     cybersecurity: {
@@ -25,7 +25,7 @@ const translations = {
     languageButton: "English"
   },
   en: {
-    title: "Ahmet Yılmaz",
+    title: "Bilal Efe Doyğun",
     subtitle: "Young Technology Expert",
     intro: "Hello! I'm a young person with experience in cybersecurity, Raspberry Pi projects, and renewable energy technologies.",
     cybersecurity: {
@@ -48,10 +48,23 @@ const translations = {
 
 const Index = () => {
   const [language, setLanguage] = useState<'tr' | 'en'>('tr');
+  const [isDark, setIsDark] = useState(false);
   const t = translations[language];
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDark]);
 
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'tr' ? 'en' : 'tr');
+  };
+
+  const toggleTheme = () => {
+    setIsDark(prev => !prev);
   };
 
   // Create falling leaves elements
@@ -60,7 +73,7 @@ const Index = () => {
   ));
 
   return (
-    <div className="min-h-screen relative bg-background overflow-hidden">
+    <div className="min-h-screen relative bg-background overflow-hidden transition-colors duration-300">
       {/* Falling Leaves Background */}
       {fallingLeaves}
       
@@ -74,6 +87,19 @@ const Index = () => {
         >
           <Globe className="w-4 h-4 mr-2" />
           {t.languageButton}
+        </Button>
+      </div>
+
+      {/* Theme Toggle Button */}
+      <div className="absolute bottom-6 left-6 z-10">
+        <Button
+          onClick={toggleTheme}
+          variant="secondary"
+          size="sm"
+          className="bg-card/80 backdrop-blur-sm shadow-soft hover:shadow-glow transition-all duration-300"
+        >
+          {isDark ? <Sun className="w-4 h-4 mr-2" /> : <Moon className="w-4 h-4 mr-2" />}
+          {isDark ? 'Açık Tema' : 'Koyu Tema'}
         </Button>
       </div>
 
