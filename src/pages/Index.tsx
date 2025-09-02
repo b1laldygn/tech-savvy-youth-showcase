@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Globe, Moon, Sun } from 'lucide-react';
+import { Globe, Moon, Sun, Linkedin, Github, ExternalLink } from 'lucide-react';
 
 const translations = {
   tr: {
@@ -22,7 +22,13 @@ const translations = {
     },
     projects: "Projelerim",
     contact: "İletişim",
-    languageButton: "English"
+    languageButton: "English",
+    contactSection: {
+      title: "Benimle İletişime Geçin",
+      description: "Projelerim ve deneyimlerim hakkında daha fazla bilgi için sosyal medya hesaplarıma göz atabilirsiniz.",
+      linkedin: "LinkedIn Profilim",
+      github: "GitHub Hesabım"
+    }
   },
   en: {
     title: "Bilal Efe Doyğun",
@@ -42,13 +48,20 @@ const translations = {
     },
     projects: "My Projects",
     contact: "Contact",
-    languageButton: "Türkçe"
+    languageButton: "Türkçe",
+    contactSection: {
+      title: "Get in Touch",
+      description: "Check out my social media profiles for more information about my projects and experience.",
+      linkedin: "LinkedIn Profile",
+      github: "GitHub Account"
+    }
   }
 };
 
 const Index = () => {
   const [language, setLanguage] = useState<'tr' | 'en'>('tr');
   const [isDark, setIsDark] = useState(false);
+  const [showContact, setShowContact] = useState(false);
   const t = translations[language];
 
   useEffect(() => {
@@ -65,6 +78,10 @@ const Index = () => {
 
   const toggleTheme = () => {
     setIsDark(prev => !prev);
+  };
+
+  const toggleContact = () => {
+    setShowContact(prev => !prev);
   };
 
   // Create falling leaves elements
@@ -177,10 +194,73 @@ const Index = () => {
               size="lg" 
               variant="outline" 
               className="border-primary/30 text-primary hover:bg-primary/10 font-semibold px-8 py-3"
+              onClick={toggleContact}
             >
               {t.contact}
             </Button>
           </div>
+
+          {/* Contact Section */}
+          {showContact && (
+            <div className="mt-8 animate-fade-in">
+              <Card className="bg-secondary/50 border-primary/20 p-6">
+                <div className="text-center mb-6">
+                  <h3 className="text-2xl font-bold text-primary mb-2">
+                    {t.contactSection.title}
+                  </h3>
+                  <p className="text-muted-foreground">
+                    {t.contactSection.description}
+                  </p>
+                </div>
+                
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {/* LinkedIn */}
+                  <a 
+                    href="https://linkedin.com/in/bilalefedoygun" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="group"
+                  >
+                    <Card className="p-4 hover:shadow-glow transition-all duration-300 cursor-pointer bg-gradient-to-r from-blue-500/10 to-blue-600/10 border-blue-500/30 hover:border-blue-500/50">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                            <Linkedin className="w-5 h-5 text-white" />
+                          </div>
+                          <span className="font-semibold text-blue-600 dark:text-blue-400">
+                            {t.contactSection.linkedin}
+                          </span>
+                        </div>
+                        <ExternalLink className="w-4 h-4 text-blue-600 dark:text-blue-400 group-hover:translate-x-1 transition-transform duration-300" />
+                      </div>
+                    </Card>
+                  </a>
+
+                  {/* GitHub */}
+                  <a 
+                    href="https://github.com/bilalefedoygun" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="group"
+                  >
+                    <Card className="p-4 hover:shadow-glow transition-all duration-300 cursor-pointer bg-gradient-to-r from-gray-700/10 to-gray-800/10 border-gray-700/30 hover:border-gray-700/50">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 bg-gray-800 dark:bg-gray-200 rounded-lg flex items-center justify-center">
+                            <Github className="w-5 h-5 text-white dark:text-gray-800" />
+                          </div>
+                          <span className="font-semibold text-gray-800 dark:text-gray-200">
+                            {t.contactSection.github}
+                          </span>
+                        </div>
+                        <ExternalLink className="w-4 h-4 text-gray-800 dark:text-gray-200 group-hover:translate-x-1 transition-transform duration-300" />
+                      </div>
+                    </Card>
+                  </a>
+                </div>
+              </Card>
+            </div>
+          )}
         </Card>
       </div>
     </div>
